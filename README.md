@@ -3,18 +3,19 @@ This is a simple and easy to use progress bar that shows the indicator
 
 #### 效果图示
 
-![Screenshot_2018-09-20-09-06-18-404_com.sheng.easy](H:\Sheng\Test\AndroidStudioProjects\MyGithub\EasySeekBar\note\Screenshot_2018-09-20-09-06-18-404_com.sheng.easy.png)
+![Screenshot_2018-09-20-09-06-18-404_com.sheng.easy](note\Screenshot_2018-09-20-09-06-18-404_com.sheng.easy.png)
 
-<video src="H:\Sheng\Test\AndroidStudioProjects\MyGithub\EasySeekBar\note\Screenrecorder-2018-09-20-09-06-48-378.mp4"></video>
-
-
+![1537408217454](note\1537408217454.gif)
 
 #### 具体使用
 
 > xml直接使用：
 
 ```xml
-
+ <com.sheng.lib.EasySeekBar
+     android:id="@+id/id_seekbar_normal"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"/>
 ```
 
 
@@ -42,9 +43,9 @@ This is a simple and easy to use progress bar that shows the indicator
 | ssb_seekbarBubbleColor     | 资源值             | 设置气泡背景颜色                                             |
 | ssb_seekbarBubbleTextSize  | 资源值             | 设置气泡文本字体大小                                         |
 | ssb_seekbarBubbleTextColor | 资源值             | 设置气泡文本颜色                                             |
-| ssb_maxProgress            |                    | progress模式下的当前最大值                                   |
-| ssb_minProgress            |                    | progress模式下的当前最小值                                   |
-| ssb_progress               |                    | progress模式下的当前进度                                     |
+| ssb_maxProgress            | int                | progress模式下的当前最大值                                   |
+| ssb_minProgress            | int                | progress模式下的当前最小值                                   |
+| ssb_progress               | int                | progress模式下的当前进度                                     |
 | ssb_isSeekBarRound         | boolean            | 是否使得SeekBar两边使用圆角模式                              |
 | ssb_isShowText             | boolean            | 是否使得SeekBar展示底部的文本                                |
 | ssb_isShowFloat            | boolean            | 是否使得文本显示为带小数点类型                               |
