@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="EasySeekBar">
+        <attr name="ssb_seekbarType" format="enum">
+            <enum name="progress" value="0"></enum>
+            <enum name="diy" value="1"></enum>
+        </attr>
+        <attr name="ssb_bubbleType" format="enum">
+            <enum name="circle" value="0"></enum>
+            <enum name="roundRect" value="1"></enum>
+        </attr>
+
+        <attr name="ssb_seekbarHeight" format="dimension|reference"></attr>
+        <attr name="ssb_normalRadius" format="dimension|reference"></attr>
+        <attr name="ssb_selectRadius" format="dimension|reference"></attr>
+        <attr name="ssb_spaceHeight" format="dimension|reference"></attr>
+        <attr name="ssb_seekbarImg" format="reference"></attr>
+        <attr name="ssb_thumbImg" format="reference"></attr>
+        <attr name="ssb_seekbarFirstColor" format="color|reference"></attr>
+        <attr name="ssb_seekbarSecondColor" format="color|reference"></attr>
+        <attr name="ssb_thumbColor" format="color|reference"></attr>
+        <attr name="ssb_thumbSelectColor" format="color|reference"></attr>
+        <attr name="ssb_seekbarTextSize" format="dimension|reference"></attr>
+        <attr name="ssb_seekbarTextColor" format="color|reference"></attr>
+        <attr name="ssb_seekbarTextSelectColor" format="color|reference"></attr>
+        <attr name="ssb_bubbleRadius" format="dimension|reference"></attr>
+        <attr name="ssb_seekbarBubbleColor" format="color|reference"></attr>
+        <attr name="ssb_seekbarBubbleTextSize" format="dimension|reference"></attr>
+        <attr name="ssb_seekbarBubbleTextColor" format="color|reference"></attr>
+        <attr name="ssb_maxProgress" format="integer"></attr>
+        <attr name="ssb_minProgress" format="integer"></attr>
+        <attr name="ssb_progress" format="integer"></attr>
+        <attr name="ssb_isSeekBarRound" format="boolean"></attr>
+        <attr name="ssb_isShowText" format="boolean"></attr>
+        <attr name="ssb_isShowFloat" format="boolean"></attr>
+        <attr name="ssb_isShowBubble" format="boolean"></attr>
+        <attr name="ssb_isAlwayShowBubble" format="boolean"></attr>
+        <attr name="ssb_isCanTouch" format="boolean"></attr>
+
+
+
+
+
+
+
+    </declare-styleable>
+</resources>
