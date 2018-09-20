@@ -3,9 +3,9 @@ This is a simple and easy to use progress bar that shows the indicator
 
 #### 效果图示
 
-![Screenshot_2018-09-20-09-06-18-404_com.sheng.easy](note\Screenshot_2018-09-20-09-06-18-404_com.sheng.easy.png)
+![Screenshot_2018-09-20-09-06-18-404_com.sheng.easy](note/Screenshot_2018-09-20-09-06-18-404_com.sheng.easy.png)
 
-![1537408217454](note\1537408217454.gif)
+![1537408217454](note/1537408217454.gif)
 
 #### 具体使用
 
