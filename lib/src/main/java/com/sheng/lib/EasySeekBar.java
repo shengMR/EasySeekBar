@@ -12,6 +12,7 @@ import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -269,6 +270,27 @@ public class EasySeekBar extends View {
         }
 
         requestLayout();
+    }
+
+    @Override
+    protected void onVisibilityChanged(@NonNull View changedView, int visibility) {
+        if (!isShowBubble)
+            return;
+
+        if (visibility != VISIBLE) {
+            hideBubble();
+        } else {
+            if (isAlwayShowBubble) {
+                showBubble();
+            }
+        }
+        super.onVisibilityChanged(changedView, visibility);
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        hideBubble();
+        super.onDetachedFromWindow();
     }
 
     @Override
@@ -532,7 +554,7 @@ public class EasySeekBar extends View {
                             mSeekBarDstRect.width() * 1.0 * mDeltaProgress);
                     isThumbPress = false;
                     if (!isAlwayShowBubble) {
-                        hintBubble();
+                        hideBubble();
                     }
                     if (mProgressListener != null) {
                         mProgressListener.onProgressStop(this, mProgress);
@@ -723,7 +745,7 @@ public class EasySeekBar extends View {
 
     // reference by https://github.com/woxingxiao/BubbleSeekBar
     // hint bubble
-    private void hintBubble() {
+    private void hideBubble() {
         if (!isShowBubble) {
             return;
         }
