@@ -9,6 +9,23 @@ This is a simple and easy to use progress bar that shows the indicator
 
 #### 具体使用
 
+> 添加依赖
+
+```groovy
+	allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+```
+ ```groovy
+ 	dependencies {
+	        implementation 'com.github.shengMR:EasySeekBar:v1.0.0'
+	}
+
+ ```
+
 > xml直接使用：
 
 ```xml
