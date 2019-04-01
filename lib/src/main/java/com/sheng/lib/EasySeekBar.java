@@ -893,4 +893,16 @@ public class EasySeekBar extends View {
         autoInit();
         postInvalidate();
     }
+
+    public float getProgress(){
+        return this.mProgress;
+    }
+
+    public float getMaxProgress() {
+        return mMax;
+    }
+
+    public float getMinProgress() {
+        return mMin;
+    }
 }
