@@ -489,6 +489,7 @@ public class EasySeekBar extends View {
                 if (mSeekbarType == SEEKBAR_TYPE.PROGRESS) {
                     // 按在Thumb上面
                     if (isTouchInThumb(x, y)) {
+                        getParent().requestDisallowInterceptTouchEvent(true);
                         isThumbPress = true;
                     } else {
                         isThumbPress = false;
@@ -532,7 +533,7 @@ public class EasySeekBar extends View {
                 break;
 
             case MotionEvent.ACTION_UP:
-
+                getParent().requestDisallowInterceptTouchEvent(false);
                 if (mSeekbarType == SEEKBAR_TYPE.DIY) {
                     if (isTouchInSeekbar(x, y)) {
                         for (int i = 0; i < mDatas.size(); i++) {
