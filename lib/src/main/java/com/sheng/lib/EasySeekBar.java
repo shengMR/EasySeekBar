@@ -470,6 +470,10 @@ public class EasySeekBar extends View {
                 }
                 canvas.drawText(mText, itemX, itemY + mSelectSeekBarRadius + mTextHeight, mTextPaint);
             }
+
+            if (isAlwayShowBubble) {
+                showBubble();
+            }
         }
     }
 
@@ -491,6 +495,9 @@ public class EasySeekBar extends View {
                     if (isTouchInThumb(x, y)) {
                         getParent().requestDisallowInterceptTouchEvent(true);
                         isThumbPress = true;
+                        if (isShowBubble) {
+                            showBubble();
+                        }
                     } else {
                         isThumbPress = false;
                     }
@@ -501,11 +508,12 @@ public class EasySeekBar extends View {
                             mProgress = (float) ((mThumbCenterX - mSeekBarDstRect.left) * 1.0 /
                                     mSeekBarDstRect.width() * 1.0 * mDeltaProgress) + mMin;
                             isThumbPress = true;
+                            if (isShowBubble) {
+                                showBubble();
+                            }
                         }
                     }
-                    if (isShowBubble) {
-                        showBubble();
-                    }
+
                     if (mProgressListener != null) {
                         mProgressListener.onProgressStart(this, mProgress);
                     }
@@ -518,14 +526,14 @@ public class EasySeekBar extends View {
                 if (mSeekbarType == SEEKBAR_TYPE.PROGRESS) {
                     if (isThumbPress) {
                         calculateThumb(x, y);
-                    }
-                    mProgress = (float) ((mThumbCenterX - mSeekBarDstRect.left) * 1.0 /
-                            mSeekBarDstRect.width() * 1.0 * mDeltaProgress) + mMin;
-                    if (isShowBubble) {
-                        showBubble();
-                    }
-                    if (mProgressListener != null) {
-                        mProgressListener.onProgressChange(this, mProgress);
+                        mProgress = (float) ((mThumbCenterX - mSeekBarDstRect.left) * 1.0 /
+                                mSeekBarDstRect.width() * 1.0 * mDeltaProgress) + mMin;
+                        if (isShowBubble) {
+                            showBubble();
+                        }
+                        if (mProgressListener != null) {
+                            mProgressListener.onProgressChange(this, mProgress);
+                        }
                     }
                 }
 
@@ -550,20 +558,19 @@ public class EasySeekBar extends View {
                 } else if (mSeekbarType == SEEKBAR_TYPE.PROGRESS) {
                     if (isThumbPress) {
                         calculateThumb(x, y);
-                    }
-                    mProgress = (float) ((mThumbCenterX - mSeekBarDstRect.left) * 1.0 /
-                            mSeekBarDstRect.width() * 1.0 * mDeltaProgress) + mMin;
-                    isThumbPress = false;
-                    if (!isAlwayShowBubble) {
-                        hideBubble();
-                    }
-                    if (mProgressListener != null) {
-                        mProgressListener.onProgressStop(this, mProgress);
+                        mProgress = (float) ((mThumbCenterX - mSeekBarDstRect.left) * 1.0 /
+                                mSeekBarDstRect.width() * 1.0 * mDeltaProgress) + mMin;
+                        if (mProgressListener != null) {
+                            mProgressListener.onProgressStop(this, mProgress);
+                        }
+                        invalidate();
                     }
                 }
 
-                invalidate();
-
+                isThumbPress = false;
+                if (!isAlwayShowBubble) {
+                    hideBubble();
+                }
                 break;
         }
 
