@@ -87,10 +87,10 @@ public class EasySeekBar extends View {
 
     // view field
     private int mSeekbarHeight;
-    private int mNormalSeekBarRadius;
-    private int mSelectSeekBarRadius;
+    private int mNormalSeekBarRadius; // 未选中thumb半径
+    private int mSelectSeekBarRadius; // 选中thumb半径
     private int mTextHeight;
-    private int mSpaceHeight;
+    private int mSpaceHeight; // 高度上下边距
     private int mItemSpace;
     private int mThumbCenterX;
     private int mThumbCenterY;
@@ -139,6 +139,11 @@ public class EasySeekBar extends View {
     private SmartInnerBubbleView mBubbleView;
     private int[] mBubbleViewPoint;
     private int mScreenState;
+    private BubbleViewHelper mBubbleHelper;
+
+    public void setBubbleViewHelper(BubbleViewHelper helper){
+        this.mBubbleHelper = helper;
+    }
 
     public EasySeekBar(Context context) {
         this(context, null);
@@ -297,6 +302,7 @@ public class EasySeekBar extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
+        /*控件的高度 = 上边距 + 按下thumb半径 + (上边距 + 文本高度) + 下边距*/
         int height = 0;
         height += mSpaceHeight;
         height += mSelectSeekBarRadius * 2;
@@ -554,6 +560,7 @@ public class EasySeekBar extends View {
                                 }
                             }
                         }
+                        invalidate();
                     }
                 } else if (mSeekbarType == SEEKBAR_TYPE.PROGRESS) {
                     if (isThumbPress) {
@@ -747,8 +754,13 @@ public class EasySeekBar extends View {
             mWindowManager.addView(mBubbleView, mLayoutParams);
         }
 
-        mBubbleView.setBubbleText(isShowFloat ? EasySeekBarUtil.formatFloat(mProgress) :
-                EasySeekBarUtil.formatInt(mProgress));
+        String diyTextByProgress = "";
+        if(mBubbleHelper != null){
+            diyTextByProgress = mBubbleHelper.getDiyTextByProgress((int) mProgress);
+        }
+
+        mBubbleView.setBubbleText(mBubbleHelper == null ? (isShowFloat ? EasySeekBarUtil.formatFloat(mProgress) :
+                EasySeekBarUtil.formatInt(mProgress)) : diyTextByProgress);
     }
 
     // reference by https://github.com/woxingxiao/BubbleSeekBar
