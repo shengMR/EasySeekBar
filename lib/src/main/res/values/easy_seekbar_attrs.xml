@@ -1,47 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="EasySeekBar">
-        <attr name="ssb_seekbarType" format="enum">
-            <enum name="progress" value="0"></enum>
-            <enum name="diy" value="1"></enum>
+        <attr name="ssb_bar_type" format="enum">
+            <enum name="seekbar" value="0" />
+            <enum name="diy" value="1" />
+            <enum name="progress" value="2" />
+            <enum name="lowOrHeight" value="3" />
         </attr>
-        <attr name="ssb_bubbleType" format="enum">
-            <enum name="circle" value="0"></enum>
-            <enum name="roundRect" value="1"></enum>
+        <attr name="ssb_bubble_type" format="enum">
+            <enum name="circle" value="0" />
+            <enum name="roundRect" value="1" />
+        </attr>
+        <attr name="ssb_text_show_type" format="enum">
+            <enum name="up" value="0" />
+            <enum name="down" value="1" />
+            <enum name="inner" value="2" />
         </attr>
 
-        <attr name="ssb_seekbarHeight" format="dimension|reference"></attr>
-        <attr name="ssb_normalRadius" format="dimension|reference"></attr>
-        <attr name="ssb_selectRadius" format="dimension|reference"></attr>
-        <attr name="ssb_spaceHeight" format="dimension|reference"></attr>
-        <attr name="ssb_seekbarImg" format="reference"></attr>
-        <attr name="ssb_thumbImg" format="reference"></attr>
-        <attr name="ssb_seekbarFirstColor" format="color|reference"></attr>
-        <attr name="ssb_seekbarSecondColor" format="color|reference"></attr>
-        <attr name="ssb_thumbColor" format="color|reference"></attr>
-        <attr name="ssb_thumbSelectColor" format="color|reference"></attr>
-        <attr name="ssb_seekbarTextSize" format="dimension|reference"></attr>
-        <attr name="ssb_seekbarTextColor" format="color|reference"></attr>
-        <attr name="ssb_seekbarTextSelectColor" format="color|reference"></attr>
-        <attr name="ssb_bubbleRadius" format="dimension|reference"></attr>
-        <attr name="ssb_seekbarBubbleColor" format="color|reference"></attr>
-        <attr name="ssb_seekbarBubbleTextSize" format="dimension|reference"></attr>
-        <attr name="ssb_seekbarBubbleTextColor" format="color|reference"></attr>
-        <attr name="ssb_maxProgress" format="integer"></attr>
-        <attr name="ssb_minProgress" format="integer"></attr>
-        <attr name="ssb_progress" format="integer"></attr>
-        <attr name="ssb_isSeekBarRound" format="boolean"></attr>
-        <attr name="ssb_isShowText" format="boolean"></attr>
-        <attr name="ssb_isShowFloat" format="boolean"></attr>
-        <attr name="ssb_isShowBubble" format="boolean"></attr>
-        <attr name="ssb_isAlwayShowBubble" format="boolean"></attr>
-        <attr name="ssb_isCanTouch" format="boolean"></attr>
+        <attr name="ssb_bar_height" format="dimension|reference" />
+        <attr name="ssb_bar_image" format="reference" />
+        <attr name="ssb_bar_color" format="color|reference" />
+        <attr name="ssb_bar_stroke_width" format="dimension|reference" />
+        <attr name="ssb_bar_stroke_color" format="color|reference" />
+        <attr name="ssb_bar_progress_image" format="reference" />
+        <attr name="ssb_bar_progress_color" format="color|reference" />
 
+        <attr name="ssb_thumb_normal_radius" format="dimension|reference" />
+        <attr name="ssb_thumb_select_radius" format="dimension|reference" />
+        <attr name="ssb_thumb_width" format="dimension|reference" />
+        <attr name="ssb_thumb_height" format="dimension|reference" />
+        <attr name="ssb_thumb_image" format="reference" />
+        <attr name="ssb_thumb_color" format="color|reference" />
+        <attr name="ssb_thumb_select_color" format="color|reference" />
+        <attr name="ssb_thumb_low_color" format="color|reference" />
+        <attr name="ssb_thumb_height_color" format="color|reference" />
 
+        <attr name="ssb_spacing" format="dimension|reference" />
+        <attr name="ssb_text_size" format="dimension|reference" />
+        <attr name="ssb_text_color" format="color|reference" />
+        <attr name="ssb_text_select_color" format="color|reference" />
+        <attr name="ssb_text_color_for_low" format="color|reference" />
+        <attr name="ssb_text_color_for_height" format="color|reference" />
 
+        <attr name="ssb_bubble_radius" format="dimension|reference" />
+        <attr name="ssb_bubble_color" format="color|reference" />
+        <attr name="ssb_bubble_text_size" format="dimension|reference" />
+        <attr name="ssb_bubble_text_color" format="color|reference" />
 
+        <attr name="ssb_max" format="integer" />
+        <attr name="ssb_min" format="integer" />
+        <attr name="ssb_progress" format="integer" />
+        <attr name="ssb_low_progress" format="integer" />
+        <attr name="ssb_height_progress" format="integer" />
+        <attr name="ssb_diy_select_index" format="integer" />
+        <attr name="ssb_animator_duration" format="integer" />
 
-
+        <attr name="ssb_is_thumb_inner_offset" format="boolean" />
+        <attr name="ssb_is_bar_round" format="boolean" />
+        <attr name="ssb_is_show_text" format="boolean" />
+        <attr name="ssb_is_show_float" format="boolean" />
+        <attr name="ssb_is_show_bubble" format="boolean" />
+        <attr name="ssb_is_can_touch" format="boolean" />
+        <attr name="ssb_is_thumb_progress_part" format="boolean" />
+        <attr name="ssb_is_diy_auto_fix" format="boolean" />
+        <attr name="ssb_is_open_animator" format="boolean" />
+        <attr name="ssb_is_thumb_no_over" format="boolean" />
+        <attr name="ssb_is_thumb_no_over_than_move" format="boolean" />
 
     </declare-styleable>
 </resources>

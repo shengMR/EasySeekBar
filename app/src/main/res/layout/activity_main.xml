@@ -6,112 +6,197 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="24dp"
+    android:paddingTop="24dp"
     android:paddingRight="24dp"
+    android:paddingBottom="20dp"
     tools:context=".MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <com.sheng.lib.EasySeekBar
             android:id="@+id/id_seekbar_1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp" />
+            android:layout_height="wrap_content" />
 
         <com.sheng.lib.EasySeekBar
             android:id="@+id/id_seekbar_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            app:ssb_bubbleRadius="20dp"
-            app:ssb_isAlwayShowBubble="true"
-            app:ssb_isCanTouch="true"
-            app:ssb_isSeekBarRound="true"
-            app:ssb_isShowText="true"
-            app:ssb_normalRadius="15dp"
-            app:ssb_seekbarHeight="10dp"
-            app:ssb_seekbarImg="@drawable/ic_seekbar"
-            app:ssb_seekbarType="progress"
-            app:ssb_selectRadius="20dp"
-            app:ssb_thumbImg="@drawable/ic_thumb" />
+            app:ssb_bar_image="@drawable/ic_seekbar"
+            app:ssb_bar_progress_image="@drawable/ic_seekbar"
+            app:ssb_is_show_text="true"
+            app:ssb_text_show_type="down"
+            app:ssb_thumb_image="@drawable/ic_thumb"
+            app:ssb_thumb_normal_radius="15dp"
+            app:ssb_thumb_select_radius="20dp" />
 
         <com.sheng.lib.EasySeekBar
             android:id="@+id/id_seekbar_3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            app:ssb_bubbleRadius="20dp"
-            app:ssb_isAlwayShowBubble="true"
-            app:ssb_isCanTouch="true"
-            app:ssb_isSeekBarRound="true"
-            app:ssb_isShowBubble="true"
-            app:ssb_isShowText="true"
-            app:ssb_normalRadius="15dp"
-            app:ssb_seekbarBubbleColor="#00ACC1"
-            app:ssb_seekbarFirstColor="#80DEEA"
-            app:ssb_seekbarHeight="10dp"
-            app:ssb_seekbarSecondColor="#00ACC1"
-            app:ssb_seekbarTextColor="#00ACC1"
-            app:ssb_seekbarType="progress"
-            app:ssb_selectRadius="15dp"
-            app:ssb_thumbColor="#00ACC1" />
+            app:ssb_bar_color="#B39DDB"
+            app:ssb_bar_height="10dp"
+            app:ssb_bar_progress_color="#FFD600"
+            app:ssb_bubble_color="#FFD600"
+            app:ssb_bubble_radius="20dp"
+            app:ssb_is_bar_round="true"
+            app:ssb_is_can_touch="true"
+            app:ssb_is_show_bubble="true"
+            app:ssb_is_show_text="true"
+            app:ssb_text_color="#FFD600"
+            app:ssb_text_show_type="inner"
+            app:ssb_thumb_color="#FFFFFF"
+            app:ssb_thumb_normal_radius="15dp"
+            app:ssb_thumb_select_radius="15dp" />
 
         <com.sheng.lib.EasySeekBar
             android:id="@+id/id_seekbar_4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            app:ssb_bubbleRadius="20dp"
-            app:ssb_isAlwayShowBubble="true"
-            app:ssb_isCanTouch="true"
-            app:ssb_isSeekBarRound="true"
-            app:ssb_isShowBubble="true"
-            app:ssb_normalRadius="15dp"
-            app:ssb_isShowFloat="true"
-            app:ssb_seekbarBubbleColor="#00ACC1"
-            app:ssb_seekbarFirstColor="#80DEEA"
-            app:ssb_seekbarHeight="10dp"
-            app:ssb_seekbarSecondColor="#00ACC1"
-            app:ssb_seekbarTextColor="#00ACC1"
-            app:ssb_seekbarType="progress"
-            app:ssb_selectRadius="15dp"
-            app:ssb_bubbleType="roundRect"
-            app:ssb_thumbColor="#00ACC1" />
+            app:ssb_bar_color="#80DEEA"
+            app:ssb_bar_height="10dp"
+            app:ssb_bar_progress_color="#00ACC1"
+            app:ssb_bubble_color="#00ACC1"
+            app:ssb_bubble_radius="20dp"
+            app:ssb_bubble_type="roundRect"
+            app:ssb_is_bar_round="true"
+            app:ssb_is_can_touch="true"
+            app:ssb_is_show_bubble="true"
+            app:ssb_is_thumb_progress_part="true"
+            app:ssb_text_color="#00ACC1"
+            app:ssb_thumb_color="#00ACC1"
+            app:ssb_thumb_height="30dp"
+            app:ssb_thumb_normal_radius="15dp"
+            app:ssb_thumb_select_radius="15dp"
+            app:ssb_thumb_width="5dp" />
 
         <com.sheng.lib.EasySeekBar
             android:id="@+id/id_seekbar_5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            app:ssb_isShowText="true"
-            app:ssb_normalRadius="15dp"
-            app:ssb_seekbarFirstColor="#80DEEA"
-            app:ssb_seekbarHeight="10dp"
-            app:ssb_seekbarTextColor="#80DEEA"
-            app:ssb_seekbarTextSelectColor="#00ACC1"
-            app:ssb_seekbarType="diy"
-            app:ssb_selectRadius="15dp"
-            app:ssb_thumbColor="#80DEEA"
-            app:ssb_thumbSelectColor="#00ACC1" />
+            android:padding="10dp"
+            app:ssb_bar_color="#80DEEA"
+            app:ssb_bar_height="10dp"
+            app:ssb_bar_type="diy"
+            app:ssb_is_show_text="true"
+            app:ssb_text_color="#80DEEA"
+            app:ssb_text_select_color="#00ACC1"
+            app:ssb_thumb_color="#80DEEA"
+            app:ssb_thumb_normal_radius="15dp"
+            app:ssb_thumb_select_color="#00ACC1"
+            app:ssb_thumb_select_radius="15dp" />
+
+        <TextView
+            android:id="@+id/id_tv_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:textSize="20sp">
+
+        </TextView>
 
         <com.sheng.lib.EasySeekBar
             android:id="@+id/id_seekbar_6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            app:ssb_isShowText="true"
-            app:ssb_normalRadius="15dp"
-            app:ssb_seekbarTextSize="12sp"
-            app:ssb_seekbarFirstColor="#80DEEA"
-            app:ssb_seekbarHeight="10dp"
-            app:ssb_seekbarTextColor="#80DEEA"
-            app:ssb_seekbarTextSelectColor="#00ACC1"
-            app:ssb_seekbarType="diy"
-            app:ssb_selectRadius="15dp"
-            app:ssb_thumbColor="#80DEEA"
-            app:ssb_thumbSelectColor="#00ACC1" />
+            android:padding="10dp"
+            app:ssb_bar_color="#80DEEA"
+            app:ssb_bar_height="10dp"
+            app:ssb_bar_type="diy"
+            app:ssb_bubble_text_size="12sp"
+            app:ssb_is_show_text="true"
+            app:ssb_text_color="#80DEEA"
+            app:ssb_text_select_color="#00ACC1"
+            app:ssb_thumb_color="#80DEEA"
+            app:ssb_thumb_image="@drawable/ic_thumb"
+            app:ssb_thumb_normal_radius="15dp"
+            app:ssb_thumb_select_color="#00ACC1"
+            app:ssb_thumb_select_radius="15dp" />
+
+        <TextView
+            android:id="@+id/id_tv_6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:textSize="20sp">
+
+        </TextView>
+
+        <com.sheng.lib.EasySeekBar
+            android:id="@+id/id_seekbar_7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:padding="10dp"
+            app:ssb_bar_type="progress"
+            app:ssb_is_open_animator="true"
+            app:ssb_progress="50" />
+
+        <TextView
+            android:id="@+id/id_tv_7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:textSize="20sp">
+
+        </TextView>
+
+        <com.sheng.lib.EasySeekBar
+            android:id="@+id/id_seekbar_8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            app:ssb_bar_type="lowOrHeight"
+            app:ssb_is_open_animator="true"
+            app:ssb_is_show_text="true"
+            app:ssb_text_show_type="inner"
+            app:ssb_thumb_normal_radius="15dp"
+            app:ssb_thumb_select_radius="15dp" />
+
+        <TextView
+            android:id="@+id/id_tv_8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:textSize="20sp">
+
+        </TextView>
+
+        <com.sheng.lib.EasySeekBar
+            android:id="@+id/id_seekbar_9"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            app:ssb_bar_color="#DCDCDC"
+            app:ssb_bar_height="10dp"
+            app:ssb_bar_progress_color="#F40"
+            app:ssb_is_bar_round="false"
+            app:ssb_is_show_text="true"
+            app:ssb_is_thumb_inner_offset="true"
+            app:ssb_text_color="#FFFFFF"
+            app:ssb_text_show_type="up"
+            app:ssb_text_size="12sp"
+            app:ssb_thumb_color="#FFFFFF"
+            app:ssb_thumb_height="10dp"
+            app:ssb_thumb_normal_radius="15dp"
+            app:ssb_thumb_select_radius="20dp"
+            app:ssb_thumb_width="10dp" />
 
     </LinearLayout>
 
