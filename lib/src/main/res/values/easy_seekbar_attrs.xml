@@ -48,6 +48,8 @@
         <attr name="ssb_bubble_text_color" format="color|reference" />
 
         <attr name="ssb_max" format="integer" />
+        <attr name="ssb_low_max" format="integer" />
+        <attr name="ssb_height_min" format="integer" />
         <attr name="ssb_min" format="integer" />
         <attr name="ssb_progress" format="integer" />
         <attr name="ssb_low_progress" format="integer" />

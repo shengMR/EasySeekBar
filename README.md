@@ -19,7 +19,7 @@ This is a simple and easy to use progress bar that shows the indicator
 ```
  ```groovy
  	dependencies {
-	        implementation 'com.github.shengMR:EasySeekBar:v1.0.8'
+	        implementation 'com.github.shengMR:EasySeekBar:v1.0.9'
 	}
 
  ```

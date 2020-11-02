@@ -19,7 +19,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -265,12 +264,15 @@ public class EasySeekBar extends View {
     private float diySelectIndexByAutoFit;
     private float max;
     private float min;
+    private float lowMax;
+    private float heightMin;
     private float progress;
     private float lowProgress;
     private float heightProgress;
     private float thumbProgress; // thumb的滑动和进度分开后，thumb的进度
     private boolean isUseThumbWAndH; // 是否使用自定义的Thumb宽高
     private boolean isThumbAndProgressPart; // thumb的滑动是否和进度分开
+    private CalculateHelper calculateHelper = new CalculateHelper();
 
 
     //region 初始化
@@ -394,6 +396,8 @@ public class EasySeekBar extends View {
         progress = a.getInt(R.styleable.EasySeekBar_ssb_progress, DEFAULT_PROGRESS);
         min = a.getInt(R.styleable.EasySeekBar_ssb_min, DEFAULT_MIN);
         max = a.getInt(R.styleable.EasySeekBar_ssb_max, DEFAULT_MAX);
+        lowMax = a.getInt(R.styleable.EasySeekBar_ssb_low_max, (int) max);
+        heightMin = a.getInt(R.styleable.EasySeekBar_ssb_height_min, (int) min);
         lowProgress = a.getInt(R.styleable.EasySeekBar_ssb_low_progress, (int) min);
         heightProgress = a.getInt(R.styleable.EasySeekBar_ssb_height_progress, (int) max);
         diySelectIndexByAutoFit = diySelectIndex = a.getInt(R.styleable.EasySeekBar_ssb_diy_select_index, DEFAULT_DIY_SELECT_INDEX);
@@ -442,6 +446,15 @@ public class EasySeekBar extends View {
         if (progress > max) {
             progress = max;
         }
+
+        if (lowMax > max) {
+            lowMax = max;
+        }
+
+        if (heightMin < min) {
+            heightMin = min;
+        }
+
 
         if (isThumbInnerOffset) {
             thumb.thumbRadiusForSelect = thumb.thumbRadiusForNormal;
@@ -544,15 +557,21 @@ public class EasySeekBar extends View {
             float halfStrokeWidth = barStrokeWidth / 2f;
             if (isThumbInnerOffset) {
                 if (isUseThumbWAndH) {
-                    barDstRectF.left = barWrapperNoPaddingRectF.left + halfStrokeWidth + thumb.thumbWidth / 2f;
+                    barDstRectF.left = barWrapperNoPaddingRectF.left + halfStrokeWidth;
                     barDstRectF.top = barWrapperNoPaddingRectF.top + barWrapperNoPaddingRectF.height() / 2f - barHeight / 2f - halfStrokeWidth;
-                    barDstRectF.right = barWrapperNoPaddingRectF.right - halfStrokeWidth - thumb.thumbWidth / 2f;
+                    barDstRectF.right = barWrapperNoPaddingRectF.right - halfStrokeWidth;
                     barDstRectF.bottom = barDstRectF.top + barHeight + barStrokeWidth;
+                    calculateHelper.barDistance = barDstRectF.width() - barStrokeWidth - thumb.thumbWidth;
+                    calculateHelper.barLeft = barDstRectF.left + halfStrokeWidth + thumb.thumbWidth / 2f;
+                    calculateHelper.barRight = calculateHelper.barLeft + calculateHelper.barDistance;
                 } else {
-                    barDstRectF.left = barWrapperNoPaddingRectF.left + halfStrokeWidth + thumb.thumbRadiusForNormal;
+                    barDstRectF.left = barWrapperNoPaddingRectF.left + halfStrokeWidth;
                     barDstRectF.top = barWrapperNoPaddingRectF.top + barWrapperNoPaddingRectF.height() / 2f - barHeight / 2f - halfStrokeWidth;
-                    barDstRectF.right = barWrapperNoPaddingRectF.right - halfStrokeWidth - thumb.thumbRadiusForNormal;
+                    barDstRectF.right = barWrapperNoPaddingRectF.right - halfStrokeWidth;
                     barDstRectF.bottom = barDstRectF.top + barHeight + barStrokeWidth;
+                    calculateHelper.barDistance = barDstRectF.width() - barStrokeWidth - thumb.thumbRadiusForNormal * 2;
+                    calculateHelper.barLeft = barDstRectF.left + halfStrokeWidth + thumb.thumbRadiusForNormal;
+                    calculateHelper.barRight = calculateHelper.barLeft + calculateHelper.barDistance;
                 }
             } else {
                 if (isUseThumbWAndH) {
@@ -561,11 +580,17 @@ public class EasySeekBar extends View {
                         barDstRectF.top = barWrapperNoPaddingRectF.top + barWrapperNoPaddingRectF.height() / 2f - barHeight / 2f - halfStrokeWidth;
                         barDstRectF.right = barWrapperNoPaddingRectF.right - thumbLow.thumbWidth / 2f + halfStrokeWidth;
                         barDstRectF.bottom = barDstRectF.top + barHeight + barStrokeWidth;
+                        calculateHelper.barDistance = barDstRectF.width() - barStrokeWidth;
+                        calculateHelper.barLeft = barDstRectF.left + halfStrokeWidth;
+                        calculateHelper.barRight = calculateHelper.barLeft + calculateHelper.barDistance;
                     } else {
-                        barDstRectF.left = barWrapperNoPaddingRectF.left + thumb.thumbWidth / 2f - halfStrokeWidth;
+                        barDstRectF.left = barWrapperNoPaddingRectF.left + thumb.thumbRadiusForNormal - halfStrokeWidth;
                         barDstRectF.top = barWrapperNoPaddingRectF.top + barWrapperNoPaddingRectF.height() / 2f - barHeight / 2f - halfStrokeWidth;
-                        barDstRectF.right = barWrapperNoPaddingRectF.right - thumb.thumbWidth / 2f + halfStrokeWidth;
+                        barDstRectF.right = barWrapperNoPaddingRectF.right - thumb.thumbRadiusForNormal + halfStrokeWidth;
                         barDstRectF.bottom = barDstRectF.top + barHeight + barStrokeWidth;
+                        calculateHelper.barDistance = barDstRectF.width() - barStrokeWidth;
+                        calculateHelper.barLeft = barDstRectF.left + halfStrokeWidth;
+                        calculateHelper.barRight = calculateHelper.barLeft + calculateHelper.barDistance;
                     }
                 } else {
                     if (seekType == SEEKBAR_TYPE_LOW_HEIGHT_THUMB) {
@@ -573,11 +598,17 @@ public class EasySeekBar extends View {
                         barDstRectF.top = barWrapperNoPaddingRectF.top + barWrapperNoPaddingRectF.height() / 2f - barHeight / 2f - halfStrokeWidth;
                         barDstRectF.right = barWrapperNoPaddingRectF.right - thumbLow.thumbRadiusForSelect + halfStrokeWidth;
                         barDstRectF.bottom = barDstRectF.top + barHeight + barStrokeWidth;
+                        calculateHelper.barDistance = barDstRectF.width() - barStrokeWidth;
+                        calculateHelper.barLeft = barDstRectF.left + halfStrokeWidth;
+                        calculateHelper.barRight = calculateHelper.barLeft + calculateHelper.barDistance;
                     } else {
                         barDstRectF.left = barWrapperNoPaddingRectF.left + thumb.thumbRadiusForSelect - halfStrokeWidth;
                         barDstRectF.top = barWrapperNoPaddingRectF.top + barWrapperNoPaddingRectF.height() / 2f - barHeight / 2f - halfStrokeWidth;
                         barDstRectF.right = barWrapperNoPaddingRectF.right - thumb.thumbRadiusForSelect + halfStrokeWidth;
                         barDstRectF.bottom = barDstRectF.top + barHeight + barStrokeWidth;
+                        calculateHelper.barDistance = barDstRectF.width() - barStrokeWidth;
+                        calculateHelper.barLeft = barDstRectF.left + halfStrokeWidth;
+                        calculateHelper.barRight = calculateHelper.barLeft + calculateHelper.barDistance;
                     }
                 }
             }
@@ -588,18 +619,8 @@ public class EasySeekBar extends View {
             if (seekType == SEEKBAR_TYPE_DIY) {
                 int splitCount = diyDatas.size();
                 if (splitCount > 1) {
-                    if (isThumbInnerOffset) {
-                        if (isUseThumbWAndH) {
-                            itemSpace = (barDstRectF.width() - barStrokeWidth - thumb.thumbWidth) - 1.0f / (splitCount - 1);
-                            thumb.thumbCenterX = barDstRectF.left + barStrokeWidth / 2f + thumb.thumbWidth / 2f + diySelectIndex * itemSpace;
-                        } else {
-                            itemSpace = (barDstRectF.width() - barStrokeWidth - thumb.thumbRadiusForNormal) - 1.0f / (splitCount - 1);
-                            thumb.thumbCenterX = barDstRectF.left + barStrokeWidth / 2f + thumb.thumbRadiusForNormal + diySelectIndex * itemSpace;
-                        }
-                    } else {
-                        itemSpace = barDstRectF.width() * 1.0f / (splitCount - 1);
-                        thumb.thumbCenterX = barDstRectF.left + diySelectIndex * itemSpace;
-                    }
+                    itemSpace = calculateHelper.barDistance / (splitCount - 1);
+                    thumb.thumbCenterX = calculateHelper.barLeft + diySelectIndex * itemSpace;
                     progressDstRectF.right = thumb.thumbCenterX;
                     thumb.thumbCenterY = barWrapperNoPaddingRectF.top + barWrapperNoPaddingRectF.height() / 2f;
                 }
@@ -607,19 +628,21 @@ public class EasySeekBar extends View {
                 if (seekType == SEEKBAR_TYPE_LOW_HEIGHT_THUMB) {
                     // 初始化ThumbXY
                     float delta = max - min;
-                    thumbLow.thumbCenterX = (lowProgress - min) * 1.0f / delta * barDstRectF.width() + barDstRectF.left;
+                    thumbLow.thumbCenterX = (lowProgress - min) * 1.0f / delta * calculateHelper.barDistance + calculateHelper.barLeft;
                     thumbLow.thumbCenterY = barWrapperNoPaddingRectF.top + barWrapperNoPaddingRectF.height() / 2f;
-                    thumbHeight.thumbCenterX = (heightProgress - min) * 1.0f / delta * barDstRectF.width() + barDstRectF.left;
+                    thumbHeight.thumbCenterX = (heightProgress - min) * 1.0f / delta * calculateHelper.barDistance + calculateHelper.barLeft;
                     thumbHeight.thumbCenterY = barWrapperNoPaddingRectF.top + barWrapperNoPaddingRectF.height() / 2f;
+                    calculateHelper.lowMaxRight = (lowMax - min) * 1.0f / delta * calculateHelper.barDistance + calculateHelper.barLeft;
+                    calculateHelper.heightMinLeft = (heightMin - min) * 1.0f / delta * calculateHelper.barDistance + calculateHelper.barLeft;
                 } else {
                     // 初始化ThumbXY
                     float delta = max - min;
                     if (isThumbAndProgressPart) {
-                        thumb.thumbCenterX = (thumbProgress - min) * 1.0f / delta * barDstRectF.width() + barDstRectF.left;
+                        thumb.thumbCenterX = (thumbProgress - min) * 1.0f / delta * calculateHelper.barDistance + calculateHelper.barLeft;
                         thumb.thumbCenterY = barWrapperNoPaddingRectF.top + barWrapperNoPaddingRectF.height() / 2f;
-                        progressDstRectF.right = (progress - min) * 1.0f / delta * barDstRectF.width() + barDstRectF.left;
+                        progressDstRectF.right = (progress - min) * 1.0f / delta * calculateHelper.barDistance + calculateHelper.barLeft;
                     } else {
-                        thumb.thumbCenterX = (progress - min) * 1.0f / delta * barDstRectF.width() + barDstRectF.left;
+                        thumb.thumbCenterX = (progress - min) * 1.0f / delta * calculateHelper.barDistance + calculateHelper.barLeft;
                         thumb.thumbCenterY = barWrapperNoPaddingRectF.top + barWrapperNoPaddingRectF.height() / 2f;
                         progressDstRectF.right = thumb.thumbCenterX;
                     }
@@ -917,7 +940,6 @@ public class EasySeekBar extends View {
                 String text = "";
                 if (textShowHelper != null) {
                     text = textShowHelper.getTextByProgress((int) lowProgress);
-                    Log.d(TAG, "text = " + text);
                     if (TextUtils.isEmpty(text)) {
                         text = "";
                     }
@@ -945,7 +967,6 @@ public class EasySeekBar extends View {
                 text = "";
                 if (textShowHelper != null) {
                     text = textShowHelper.getTextByProgress((int) heightProgress);
-                    Log.d(TAG, "text = " + text);
                     if (TextUtils.isEmpty(text)) {
                         text = "";
                     }
@@ -1268,7 +1289,7 @@ public class EasySeekBar extends View {
                             for (int i = 0; i < diyDatas.size(); i++) {
                                 if (isThumbInnerOffset) {
                                     if (isUseThumbWAndH) {
-                                        float itemMiddle = barDstRectF.left + barStrokeWidth / 2f + itemSpace * i - .5f;
+                                        float itemMiddle = calculateHelper.barLeft + itemSpace * i - .5f;
                                         float itemLeft = itemMiddle - itemSpace / 2f;
                                         float itemRight = itemMiddle + itemSpace / 2f;
                                         if (thumb.thumbCenterX >= itemLeft && thumb.thumbCenterX <= itemRight) {
@@ -1279,7 +1300,7 @@ public class EasySeekBar extends View {
                                             break;
                                         }
                                     } else {
-                                        float itemMiddle = barDstRectF.left + barStrokeWidth / 2f + itemSpace * i - .5f;
+                                        float itemMiddle = calculateHelper.barLeft + itemSpace * i - .5f;
                                         float itemLeft = itemMiddle - itemSpace / 2f;
                                         float itemRight = itemMiddle + itemSpace / 2f;
 
@@ -1292,7 +1313,7 @@ public class EasySeekBar extends View {
                                         }
                                     }
                                 } else {
-                                    float itemMiddle = barDstRectF.left + itemSpace * i - .5f;
+                                    float itemMiddle = calculateHelper.barLeft + itemSpace * i - .5f;
                                     float itemLeft = itemMiddle - itemSpace / 2f;
                                     float itemRight = itemMiddle + itemSpace / 2f;
                                     if (thumb.thumbCenterX >= itemLeft && thumb.thumbCenterX <= itemRight) {
@@ -1319,9 +1340,9 @@ public class EasySeekBar extends View {
                                         float animatedValue = (float) animation.getAnimatedValue();
                                         diySelectIndexByAutoFit = animatedValue;
                                         if (isThumbInnerOffset) {
-                                            thumb.thumbCenterX = barDstRectF.left + barStrokeWidth / 2f + thumb.thumbWidth / 2f + diySelectIndexByAutoFit * itemSpace;
+                                            thumb.thumbCenterX = calculateHelper.barLeft + diySelectIndexByAutoFit * itemSpace;
                                         } else {
-                                            thumb.thumbCenterX = barDstRectF.left + diySelectIndexByAutoFit * itemSpace;
+                                            thumb.thumbCenterX = calculateHelper.barLeft + diySelectIndexByAutoFit * itemSpace;
                                         }
                                         progressDstRectF.right = thumb.thumbCenterX;
                                         invalidate();
@@ -1331,9 +1352,9 @@ public class EasySeekBar extends View {
                             } else {
                                 diySelectIndexByAutoFit = diySelectIndex;
                                 if (isThumbInnerOffset) {
-                                    thumb.thumbCenterX = barDstRectF.left + barStrokeWidth / 2f + thumb.thumbWidth / 2f + diySelectIndexByAutoFit * itemSpace;
+                                    thumb.thumbCenterX = calculateHelper.barLeft + diySelectIndexByAutoFit * itemSpace;
                                 } else {
-                                    thumb.thumbCenterX = barDstRectF.left + diySelectIndexByAutoFit * itemSpace;
+                                    thumb.thumbCenterX = calculateHelper.barLeft + diySelectIndexByAutoFit * itemSpace;
                                 }
                                 progressDstRectF.right = thumb.thumbCenterX;
                             }
@@ -1342,7 +1363,7 @@ public class EasySeekBar extends View {
                             for (int i = 0; i < diyDatas.size(); i++) {
                                 if (isThumbInnerOffset) {
                                     if (isUseThumbWAndH) {
-                                        float itemLeft = barDstRectF.left + barStrokeWidth / 2f + itemSpace * i - .5f;
+                                        float itemLeft = calculateHelper.barLeft + itemSpace * i - .5f;
                                         float itemRight = itemLeft + itemSpace;
                                         if (thumb.thumbCenterX >= itemLeft && thumb.thumbCenterX <= itemRight) {
                                             diySelectIndex = i;
@@ -1352,7 +1373,7 @@ public class EasySeekBar extends View {
                                             break;
                                         }
                                     } else {
-                                        float itemLeft = barDstRectF.left + barStrokeWidth / 2f + itemSpace * i - .5f;
+                                        float itemLeft = calculateHelper.barLeft + itemSpace * i - .5f;
                                         float itemRight = itemLeft + itemSpace;
                                         if (thumb.thumbCenterX >= itemLeft && thumb.thumbCenterX <= itemRight) {
                                             diySelectIndex = i;
@@ -1363,7 +1384,7 @@ public class EasySeekBar extends View {
                                         }
                                     }
                                 } else {
-                                    float itemLeft = barDstRectF.left - thumb.thumbRadiusForSelect + itemSpace * i - .5f;
+                                    float itemLeft = calculateHelper.barLeft + itemSpace * i - .5f;
                                     float itemRight = itemLeft + itemSpace;
                                     if (thumb.thumbCenterX >= itemLeft && thumb.thumbCenterX <= itemRight) {
                                         diySelectIndex = i;
@@ -1455,12 +1476,14 @@ public class EasySeekBar extends View {
         float scale = 0F;
         float scaleLow = 0F;
         float scaleHeight = 0F;
+
+        float calcBarlongWidth = calculateHelper.barDistance;
+        float minboundaryX = calculateHelper.barLeft;
+        float maxboundaryX = calculateHelper.barRight;
+
         if (isThumbInnerOffset) {
             if (isUseThumbWAndH) {
                 if (seekType == SEEKBAR_TYPE_LOW_HEIGHT_THUMB) {
-                    float calcBarlongWidth = barDstRectF.width() - barStrokeWidth - thumbLow.thumbWidth;
-                    float minboundaryX = barDstRectF.left + barStrokeWidth / 2f + thumbLow.thumbWidth / 2f;
-                    float maxboundaryX = barDstRectF.right - barStrokeWidth / 2f - thumbLow.thumbWidth / 2f;
                     if (xLow <= minboundaryX) {
                         scaleLow = 0F;
                     } else if (xLow >= maxboundaryX) {
@@ -1476,9 +1499,6 @@ public class EasySeekBar extends View {
                         scaleHeight = (xHeight - minboundaryX) / calcBarlongWidth;
                     }
                 } else {
-                    float calcBarlongWidth = barDstRectF.width() - barStrokeWidth - thumb.thumbWidth;
-                    float minboundaryX = barDstRectF.left + barStrokeWidth / 2f + thumb.thumbWidth / 2f;
-                    float maxboundaryX = barDstRectF.right - barStrokeWidth / 2f - thumb.thumbWidth / 2f;
                     if (x <= minboundaryX) {
                         scale = 0F;
                     } else if (x >= maxboundaryX) {
@@ -1489,9 +1509,6 @@ public class EasySeekBar extends View {
                 }
             } else {
                 if (seekType == SEEKBAR_TYPE_LOW_HEIGHT_THUMB) {
-                    float calcBarlongWidth = barDstRectF.width() - barStrokeWidth - thumbLow.thumbRadiusForNormal * 2;
-                    float minboundaryX = barDstRectF.left + barStrokeWidth / 2f + thumbLow.thumbRadiusForNormal;
-                    float maxboundaryX = barDstRectF.right - barStrokeWidth / 2f - thumbLow.thumbRadiusForNormal;
                     if (xLow <= minboundaryX) {
                         scaleLow = 0F;
                     } else if (xLow >= maxboundaryX) {
@@ -1507,9 +1524,6 @@ public class EasySeekBar extends View {
                         scaleHeight = (xHeight - minboundaryX) / calcBarlongWidth;
                     }
                 } else {
-                    float calcBarlongWidth = barDstRectF.width() - barStrokeWidth - thumb.thumbRadiusForNormal * 2;
-                    float minboundaryX = barDstRectF.left + barStrokeWidth / 2f + thumb.thumbRadiusForNormal;
-                    float maxboundaryX = barDstRectF.right - barStrokeWidth / 2f - thumb.thumbRadiusForNormal;
                     if (x <= minboundaryX) {
                         scale = 0F;
                     } else if (x >= maxboundaryX) {
@@ -1520,9 +1534,6 @@ public class EasySeekBar extends View {
                 }
             }
         } else {
-            float calcBarlongWidth = barDstRectF.width() - barStrokeWidth;
-            float minboundaryX = barDstRectF.left + barStrokeWidth / 2f;
-            float maxboundaryX = barDstRectF.right - barStrokeWidth / 2f;
 
             if (seekType == SEEKBAR_TYPE_LOW_HEIGHT_THUMB) {
                 if (xLow <= minboundaryX) {
@@ -1669,86 +1680,34 @@ public class EasySeekBar extends View {
         float x = event.getX();
         float changeX = x;
         float right = 0;
-        if (isThumbInnerOffset) {
-            if (isUseThumbWAndH) {
-                if (seekType == SEEKBAR_TYPE_LOW_HEIGHT_THUMB) {
-                    if (touchType == TOUCH_LOW_THUMB) {
-                        if (x < barDstRectF.left + thumbLow.thumbWidth / 2f + barStrokeWidth / 2f) {
-                            changeX = barDstRectF.left + thumbLow.thumbWidth / 2f + barStrokeWidth / 2f;
-                        }
 
-                        if (x > barDstRectF.right - thumbLow.thumbWidth / 2f - barStrokeWidth / 2f) {
-                            changeX = barDstRectF.right - thumbLow.thumbWidth / 2f - barStrokeWidth / 2f;
-                        }
-                        right = barDstRectF.right - thumbLow.thumbWidth / 2f - barStrokeWidth / 2f;
-                    } else if (touchType == TOUCH_HEIGHT_THUMB) {
-                        if (x < barDstRectF.left + thumbHeight.thumbWidth / 2f + barStrokeWidth / 2f) {
-                            changeX = barDstRectF.left + thumbHeight.thumbWidth / 2f + barStrokeWidth / 2f;
-                        }
-
-                        if (x > barDstRectF.right - thumbHeight.thumbWidth / 2f - barStrokeWidth / 2f) {
-                            changeX = barDstRectF.right - thumbHeight.thumbWidth / 2f - barStrokeWidth / 2f;
-                        }
-                        right = barDstRectF.right - thumbHeight.thumbWidth / 2f - barStrokeWidth / 2f;
-                    }
-                } else {
-                    if (x < barDstRectF.left + thumb.thumbWidth / 2f + barStrokeWidth / 2f) {
-                        changeX = barDstRectF.left + thumb.thumbWidth / 2f + barStrokeWidth / 2f;
-                    }
-
-                    if (x > barDstRectF.right - thumb.thumbWidth / 2f - barStrokeWidth / 2f) {
-                        changeX = barDstRectF.right - thumb.thumbWidth / 2f - barStrokeWidth / 2f;
-                    }
+        if (seekType == SEEKBAR_TYPE_LOW_HEIGHT_THUMB) {
+            if (touchType == TOUCH_LOW_THUMB) {
+                if (x < calculateHelper.barLeft) {
+                    changeX = calculateHelper.barLeft;
                 }
-            } else {
-                if (seekType == SEEKBAR_TYPE_LOW_HEIGHT_THUMB) {
-                    if (touchType == TOUCH_LOW_THUMB) {
-                        if (x < barDstRectF.left + thumbLow.thumbRadiusForNormal + barStrokeWidth / 2f) {
-                            changeX = barDstRectF.left + thumbLow.thumbRadiusForNormal + barStrokeWidth / 2f;
-                        }
 
-                        if (x > barDstRectF.right - thumbLow.thumbRadiusForNormal - barStrokeWidth / 2f) {
-                            changeX = barDstRectF.right - thumbLow.thumbRadiusForNormal - barStrokeWidth / 2f;
-                        }
-                        right = barDstRectF.right - thumbLow.thumbRadiusForNormal - barStrokeWidth / 2f;
-                    } else {
-                        if (x < barDstRectF.left + thumbHeight.thumbRadiusForNormal + barStrokeWidth / 2f) {
-                            changeX = barDstRectF.left + thumbHeight.thumbRadiusForNormal + barStrokeWidth / 2f;
-                        }
-
-                        if (x > barDstRectF.right - thumbHeight.thumbRadiusForNormal - barStrokeWidth / 2f) {
-                            changeX = barDstRectF.right - thumbHeight.thumbRadiusForNormal - barStrokeWidth / 2f;
-                        }
-                        right = barDstRectF.right - thumbHeight.thumbRadiusForNormal - barStrokeWidth / 2f;
-                    }
-                } else {
-                    if (x < barDstRectF.left + thumb.thumbRadiusForNormal + barStrokeWidth / 2f) {
-                        changeX = barDstRectF.left + thumb.thumbRadiusForNormal + barStrokeWidth / 2f;
-                    }
-
-                    if (x > barDstRectF.right - thumb.thumbRadiusForNormal - barStrokeWidth / 2f) {
-                        changeX = barDstRectF.right - thumb.thumbRadiusForNormal - barStrokeWidth / 2f;
-                    }
+                if (x > calculateHelper.lowMaxRight) {
+                    changeX = calculateHelper.lowMaxRight;
                 }
+                right = calculateHelper.barRight;
+            } else if (touchType == TOUCH_HEIGHT_THUMB) {
+                if (x < calculateHelper.heightMinLeft) {
+                    changeX = calculateHelper.heightMinLeft;
+                }
+
+                if (x > calculateHelper.barRight) {
+                    changeX = calculateHelper.barRight;
+                }
+                right = calculateHelper.barRight;
             }
         } else {
-            if (seekType == SEEKBAR_TYPE_LOW_HEIGHT_THUMB) {
-                if (x < barDstRectF.left + barStrokeWidth / 2f) {
-                    changeX = barDstRectF.left + barStrokeWidth / 2f;
-                }
+            if (x < calculateHelper.barLeft) {
+                changeX = calculateHelper.barLeft;
+            }
 
-                if (x > barDstRectF.right - barStrokeWidth / 2f) {
-                    changeX = barDstRectF.right - barStrokeWidth / 2f;
-                }
-                right = barDstRectF.right - barStrokeWidth / 2f;
-            } else {
-                if (x < barDstRectF.left + barStrokeWidth / 2f) {
-                    changeX = barDstRectF.left + barStrokeWidth / 2f;
-                }
-
-                if (x > barDstRectF.right - barStrokeWidth / 2f) {
-                    changeX = barDstRectF.right - barStrokeWidth / 2f;
-                }
+            if (x > calculateHelper.barRight) {
+                changeX = calculateHelper.barRight;
             }
         }
 
@@ -2228,7 +2187,7 @@ public class EasySeekBar extends View {
         this.textShowHelper = helper;
     }
 
-    public void setShowBubble(boolean show){
+    public void setShowBubble(boolean show) {
         this.isShowBubble = show;
         postInvalidate();
     }
@@ -2276,6 +2235,14 @@ public class EasySeekBar extends View {
 
             return thumbDstRectF;
         }
+    }
+
+    private class CalculateHelper {
+        float barDistance; // Bar的有效长度(剔除边框)
+        float barLeft; // Bar的有效左侧(剔除边框)
+        float barRight; // Bar的有效右侧侧(剔除边框)
+        float lowMaxRight; // 两个滑动块需要
+        float heightMinLeft; // 两个滑动块需要
     }
     //endregion
 

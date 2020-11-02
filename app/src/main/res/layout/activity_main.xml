@@ -160,6 +160,8 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             app:ssb_bar_type="lowOrHeight"
+            app:ssb_low_max="30"
+            app:ssb_height_min="70"
             app:ssb_is_open_animator="true"
             app:ssb_is_show_text="true"
             app:ssb_text_show_type="inner"
