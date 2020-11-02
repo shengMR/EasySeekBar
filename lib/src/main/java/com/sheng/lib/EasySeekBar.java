@@ -2213,6 +2213,11 @@ public class EasySeekBar extends View {
     public void setTextShowHelper(TextShowHelper helper) {
         this.textShowHelper = helper;
     }
+
+    public void setShowBubble(boolean show){
+        this.isShowBubble = show;
+        postInvalidate();
+    }
     //endregion
 
     //region 内部类
