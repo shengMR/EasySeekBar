@@ -2054,116 +2054,130 @@ public class EasySeekBar extends View {
         requestLayout();
     }
 
-    public void setSelectIndex(int diySelectIndex) {
+    public void setSelectIndex(final int index) {
 
-        int splitCount = diyDatas.size();
-        if (diySelectIndex < splitCount) {
-            this.diySelectIndex = diySelectIndex;
-        }
-        if (splitCount > 1) {
-            if (isThumbInnerOffset) {
-                if (isUseThumbWAndH) {
-                    itemSpace = (barDstRectF.width() - barStrokeWidth - thumb.thumbWidth) - 1.0f / (splitCount - 1);
-                } else {
-                    itemSpace = (barDstRectF.width() - barStrokeWidth - thumb.thumbRadiusForNormal) - 1.0f / (splitCount - 1);
+        this.post(new Runnable() {
+            @Override
+            public void run() {
+                int splitCount = diyDatas.size();
+                if (index < splitCount) {
+                    diySelectIndex = index;
                 }
-                thumb.thumbCenterX = barDstRectF.left + barStrokeWidth / 2f + thumb.thumbWidth / 2f + diySelectIndex * itemSpace;
-            } else {
-                itemSpace = barDstRectF.width() * 1.0f / (splitCount - 1);
-                thumb.thumbCenterX = barDstRectF.left + diySelectIndex * itemSpace;
-            }
-            progressDstRectF.right = thumb.thumbCenterX;
+                if (splitCount > 1) {
+                    if (isThumbInnerOffset) {
+                        if (isUseThumbWAndH) {
+                            itemSpace = (barDstRectF.width() - barStrokeWidth - thumb.thumbWidth) - 1.0f / (splitCount - 1);
+                        } else {
+                            itemSpace = (barDstRectF.width() - barStrokeWidth - thumb.thumbRadiusForNormal) - 1.0f / (splitCount - 1);
+                        }
+                        thumb.thumbCenterX = barDstRectF.left + barStrokeWidth / 2f + thumb.thumbWidth / 2f + index * itemSpace;
+                    } else {
+                        itemSpace = barDstRectF.width() * 1.0f / (splitCount - 1);
+                        thumb.thumbCenterX = barDstRectF.left + index * itemSpace;
+                    }
+                    progressDstRectF.right = thumb.thumbCenterX;
 
-        }
-        postInvalidate();
+                }
+                postInvalidate();
+            }
+        });
     }
 
     public int getSelectIndex() {
         return this.diySelectIndex;
     }
 
-    public void setThumbProgress(int progress) {
-        if (isThumbAndProgressPart) {
-            this.thumbProgress = progress;
-            float delta = max - min;
-            float result = (progress - min) * 1.0f / delta * barDstRectF.width() + barDstRectF.left;
-            if (isOpenAnimator) {
-                if (valueAnimatorForThumb != null) {
-                    valueAnimatorForThumb.cancel();
-                    valueAnimatorForThumb = null;
-                }
-                valueAnimatorForThumb = ValueAnimator.ofFloat(thumb.thumbCenterX, result);
-                valueAnimatorForThumb.setDuration(animatorDuration);
-                valueAnimatorForThumb.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                    @Override
-                    public void onAnimationUpdate(ValueAnimator animation) {
-                        float value = (float) animation.getAnimatedValue();
-                        thumb.thumbCenterX = value;
-                        invalidate();
+    public void setThumbProgress(final int progress) {
+        this.post(new Runnable() {
+            @Override
+            public void run() {
+                if (isThumbAndProgressPart) {
+                    thumbProgress = progress;
+                    float delta = max - min;
+                    float result = (progress - min) * 1.0f / delta * barDstRectF.width() + barDstRectF.left;
+                    if (isOpenAnimator) {
+                        if (valueAnimatorForThumb != null) {
+                            valueAnimatorForThumb.cancel();
+                            valueAnimatorForThumb = null;
+                        }
+                        valueAnimatorForThumb = ValueAnimator.ofFloat(thumb.thumbCenterX, result);
+                        valueAnimatorForThumb.setDuration(animatorDuration);
+                        valueAnimatorForThumb.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                            @Override
+                            public void onAnimationUpdate(ValueAnimator animation) {
+                                float value = (float) animation.getAnimatedValue();
+                                thumb.thumbCenterX = value;
+                                invalidate();
+                            }
+                        });
+                        valueAnimatorForThumb.start();
+                    } else {
+                        thumb.thumbCenterX = result;
                     }
-                });
-                valueAnimatorForThumb.start();
-            } else {
-                thumb.thumbCenterX = result;
+                }
+                postInvalidate();
             }
-        }
-        postInvalidate();
+        });
     }
 
     public int getThumbProgress() {
         return (int) this.thumbProgress;
     }
 
-    public void setProgress(int progress) {
+    public void setProgress(final int progress) {
         this.progress = progress;
-        autoInit();
-        float delta = max - min;
-        if (isThumbAndProgressPart) {
-            float result = (progress - min) * 1.0f / delta * barDstRectF.width() + barDstRectF.left;
-            if (isOpenAnimator) {
-                if (valueAnimatorForProgress != null) {
-                    valueAnimatorForProgress.cancel();
-                    valueAnimatorForProgress = null;
-                }
-                valueAnimatorForProgress = ValueAnimator.ofFloat(progressDstRectF.right, result);
-                valueAnimatorForProgress.setDuration(animatorDuration);
-                valueAnimatorForProgress.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                    @Override
-                    public void onAnimationUpdate(ValueAnimator animation) {
-                        float value = (float) animation.getAnimatedValue();
-                        progressDstRectF.right = value;
-                        invalidate();
+        this.post(new Runnable() {
+            @Override
+            public void run() {
+                float delta = max - min;
+                if (isThumbAndProgressPart) {
+                    float result = (progress - min) * 1.0f / delta * barDstRectF.width() + barDstRectF.left;
+                    if (isOpenAnimator) {
+                        if (valueAnimatorForProgress != null) {
+                            valueAnimatorForProgress.cancel();
+                            valueAnimatorForProgress = null;
+                        }
+                        valueAnimatorForProgress = ValueAnimator.ofFloat(progressDstRectF.right, result);
+                        valueAnimatorForProgress.setDuration(animatorDuration);
+                        valueAnimatorForProgress.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                            @Override
+                            public void onAnimationUpdate(ValueAnimator animation) {
+                                float value = (float) animation.getAnimatedValue();
+                                progressDstRectF.right = value;
+                                invalidate();
+                            }
+                        });
+                        valueAnimatorForProgress.start();
+                    } else {
+                        progressDstRectF.right = result;
                     }
-                });
-                valueAnimatorForProgress.start();
-            } else {
-                progressDstRectF.right = result;
-            }
-        } else {
-            float result = (progress - min) * 1.0f / delta * barDstRectF.width() + barDstRectF.left;
-            if (isOpenAnimator) {
-                if (valueAnimator != null) {
-                    valueAnimator.cancel();
-                    valueAnimator = null;
-                }
-                valueAnimator = ValueAnimator.ofFloat(progressDstRectF.right, result);
-                valueAnimator.setDuration(animatorDuration);
-                valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                    @Override
-                    public void onAnimationUpdate(ValueAnimator animation) {
-                        float value = (float) animation.getAnimatedValue();
-                        thumb.thumbCenterX = value;
-                        progressDstRectF.right = value;
-                        invalidate();
+                } else {
+                    float result = (progress - min) * 1.0f / delta * barDstRectF.width() + barDstRectF.left;
+                    if (isOpenAnimator) {
+                        if (valueAnimator != null) {
+                            valueAnimator.cancel();
+                            valueAnimator = null;
+                        }
+                        valueAnimator = ValueAnimator.ofFloat(progressDstRectF.right, result);
+                        valueAnimator.setDuration(animatorDuration);
+                        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                            @Override
+                            public void onAnimationUpdate(ValueAnimator animation) {
+                                float value = (float) animation.getAnimatedValue();
+                                thumb.thumbCenterX = value;
+                                progressDstRectF.right = value;
+                                invalidate();
+                            }
+                        });
+                        valueAnimator.start();
+                    } else {
+                        thumb.thumbCenterX = result;
+                        progressDstRectF.right = result;
                     }
-                });
-                valueAnimator.start();
-            } else {
-                thumb.thumbCenterX = result;
-                progressDstRectF.right = result;
+                }
+                postInvalidate();
             }
-        }
-        postInvalidate();
+        });
     }
 
     public float getProgress() {

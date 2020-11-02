@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
     private MyHandler myHandler;
 
+    public EasySeekBar easySeekBar1;
     public EasySeekBar easySeekBar4;
     public EasySeekBar easySeekBar5;
     public EasySeekBar easySeekBar6;
@@ -34,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         myHandler = new MyHandler(this);
+
+        easySeekBar1 = findViewById(R.id.id_seekbar_1);
+        easySeekBar1.setProgress(60);
 
         easySeekBar4 = findViewById(R.id.id_seekbar_4);
 
