@@ -687,6 +687,7 @@ public class EasySeekBar extends View {
             drawProgressType(canvas);
         } else if (seekType == SEEKBAR_TYPE_LOW_HEIGHT_THUMB) {
             drawLowHeightType(canvas);
+
         }
     }
 
