@@ -8,10 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import com.sheng.lib.EasySeekBar;
-import com.sheng.lib.TextShowHelper;
 
 import java.lang.ref.WeakReference;
-import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,82 +34,85 @@ public class MainActivity extends AppCompatActivity {
 
         myHandler = new MyHandler(this);
 
-        easySeekBar1 = findViewById(R.id.id_seekbar_1);
-        easySeekBar1.setProgress(60);
-
-        easySeekBar4 = findViewById(R.id.id_seekbar_4);
-
-        // 设置分段
-        easySeekBar5 = findViewById(R.id.id_seekbar_5);
-        textView5 = findViewById(R.id.id_tv_5);
-        easySeekBar5.setItems("one", "two", "three", "four", "five");
-        easySeekBar5.setSeekBarDiyChangeListener(new EasySeekBar.OnSeekBarDiyChangeListener() {
-
-            @Override
-            public void onDiyChange(EasySeekBar easySeekBar, String text, int position) {
-                String format = String.format(Locale.getDefault(), "%s click by : %d", text, position);
-                textView5.setText(format);
-            }
-        });
-
-        easySeekBar6 = findViewById(R.id.id_seekbar_6);
-        textView6 = findViewById(R.id.id_tv_6);
-        easySeekBar6.setItems("open", "1/2", "1/3");
-        easySeekBar6.setSeekBarDiyChangeListener(new EasySeekBar.OnSeekBarDiyChangeListener() {
-            @Override
-            public void onDiyChange(EasySeekBar easySeekBar, String text, int position) {
-                String format = String.format(Locale.getDefault(), "%s click by : %d", text, position);
-                textView6.setText(format);
-            }
-        });
-
-        // 普通进度条
-        easySeekBar7 = findViewById(R.id.id_seekbar_7);
-        textView7 = findViewById(R.id.id_tv_7);
-        myHandler.sendEmptyMessage(101);
-
-        final String str8 = "low : %s, height : %s";
         easySeekBar8 = findViewById(R.id.id_seekbar_8);
-        textView8 = findViewById(R.id.id_tv_8);
-        easySeekBar8.setSeekBarLowOrHeightListener(new EasySeekBar.OnLowOrHeightProgressChangeListener() {
-            @Override
-            public void onLowStart(EasySeekBar easySeekBar, int progress) {
-                textView8.setText(String.format(str8, progress, easySeekBar8.getHeightProgress()));
-            }
+        easySeekBar8.setLowProgress(20);
 
-            @Override
-            public void onLowChange(EasySeekBar easySeekBar, int progress) {
-                textView8.setText(String.format(str8, progress, easySeekBar8.getHeightProgress()));
-            }
-
-            @Override
-            public void onLowStop(EasySeekBar easySeekBar, int progress) {
-                textView8.setText(String.format(str8, progress, easySeekBar8.getHeightProgress()));
-            }
-
-            @Override
-            public void onHeightStart(EasySeekBar easySeekBar, int progress) {
-                textView8.setText(String.format(str8, easySeekBar8.getLowProgress(), progress));
-            }
-
-            @Override
-            public void onHeightChange(EasySeekBar easySeekBar, int progress) {
-                textView8.setText(String.format(str8, easySeekBar8.getLowProgress(), progress));
-            }
-
-            @Override
-            public void onHeightStop(EasySeekBar easySeekBar, int progress) {
-                textView8.setText(String.format(str8, easySeekBar8.getLowProgress(), progress));
-            }
-        });
-
-        easySeekBar9 = findViewById(R.id.id_seekbar_9);
-        easySeekBar9.setTextShowHelper(new TextShowHelper() {
-            @Override
-            public String getTextByProgress(int progress) {
-                return progress + "s";
-            }
-        });
+//        easySeekBar1 = findViewById(R.id.id_seekbar_1);
+//        easySeekBar1.setProgress(60);
+//
+//        easySeekBar4 = findViewById(R.id.id_seekbar_4);
+//
+//        // 设置分段
+//        easySeekBar5 = findViewById(R.id.id_seekbar_5);
+//        textView5 = findViewById(R.id.id_tv_5);
+//        easySeekBar5.setItems("one", "two", "three", "four", "five");
+//        easySeekBar5.setSeekBarDiyChangeListener(new EasySeekBar.OnSeekBarDiyChangeListener() {
+//
+//            @Override
+//            public void onDiyChange(EasySeekBar easySeekBar, String text, int position) {
+//                String format = String.format(Locale.getDefault(), "%s click by : %d", text, position);
+//                textView5.setText(format);
+//            }
+//        });
+//
+//        easySeekBar6 = findViewById(R.id.id_seekbar_6);
+//        textView6 = findViewById(R.id.id_tv_6);
+//        easySeekBar6.setItems("open", "1/2", "1/3");
+//        easySeekBar6.setSeekBarDiyChangeListener(new EasySeekBar.OnSeekBarDiyChangeListener() {
+//            @Override
+//            public void onDiyChange(EasySeekBar easySeekBar, String text, int position) {
+//                String format = String.format(Locale.getDefault(), "%s click by : %d", text, position);
+//                textView6.setText(format);
+//            }
+//        });
+//
+//        // 普通进度条
+//        easySeekBar7 = findViewById(R.id.id_seekbar_7);
+//        textView7 = findViewById(R.id.id_tv_7);
+//        myHandler.sendEmptyMessage(101);
+//
+//        final String str8 = "low : %s, height : %s";
+//        easySeekBar8 = findViewById(R.id.id_seekbar_8);
+//        textView8 = findViewById(R.id.id_tv_8);
+//        easySeekBar8.setSeekBarLowOrHeightListener(new EasySeekBar.OnLowOrHeightProgressChangeListener() {
+//            @Override
+//            public void onLowStart(EasySeekBar easySeekBar, int progress) {
+//                textView8.setText(String.format(str8, progress, easySeekBar8.getHeightProgress()));
+//            }
+//
+//            @Override
+//            public void onLowChange(EasySeekBar easySeekBar, int progress) {
+//                textView8.setText(String.format(str8, progress, easySeekBar8.getHeightProgress()));
+//            }
+//
+//            @Override
+//            public void onLowStop(EasySeekBar easySeekBar, int progress) {
+//                textView8.setText(String.format(str8, progress, easySeekBar8.getHeightProgress()));
+//            }
+//
+//            @Override
+//            public void onHeightStart(EasySeekBar easySeekBar, int progress) {
+//                textView8.setText(String.format(str8, easySeekBar8.getLowProgress(), progress));
+//            }
+//
+//            @Override
+//            public void onHeightChange(EasySeekBar easySeekBar, int progress) {
+//                textView8.setText(String.format(str8, easySeekBar8.getLowProgress(), progress));
+//            }
+//
+//            @Override
+//            public void onHeightStop(EasySeekBar easySeekBar, int progress) {
+//                textView8.setText(String.format(str8, easySeekBar8.getLowProgress(), progress));
+//            }
+//        });
+//
+//        easySeekBar9 = findViewById(R.id.id_seekbar_9);
+//        easySeekBar9.setTextShowHelper(new TextShowHelper() {
+//            @Override
+//            public String getTextByProgress(int progress) {
+//                return progress + "s";
+//            }
+//        });
     }
 
     public static class MyHandler extends Handler {
