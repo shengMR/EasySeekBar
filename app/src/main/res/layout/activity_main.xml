@@ -16,41 +16,64 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+
         <com.sheng.lib.EasySeekBar
             android:id="@+id/id_seekbar_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <com.sheng.lib.EasySeekBar
-            android:id="@+id/id_seekbar_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:ssb_bar_color="#300F56"
+            app:ssb_bar_progress_color="#8068EA"
+            app:ssb_is_show_text="true"
+            app:ssb_text_show_type="inner"
+            app:ssb_thumb_color="#8068EA"
+            app:ssb_thumb_normal_radius="10dp"
+            app:ssb_thumb_select_radius="20dp" />
+
+        <com.sheng.lib.EasySeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:ssb_bar_color="#300F56"
+            app:ssb_bar_progress_color="#8068EA"
+            app:ssb_is_show_text="true"
+            app:ssb_text_color="#FFFFFF"
+            app:ssb_text_show_type="inner"
+            app:ssb_thumb_color="#8068EA"
+            app:ssb_thumb_normal_radius="10dp"
+            app:ssb_thumb_select_radius="20dp" />
+
+        <com.sheng.lib.EasySeekBar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             app:ssb_bar_image="@drawable/ic_seekbar"
-            app:ssb_bar_progress_image="@drawable/ic_seekbar"
+            app:ssb_bar_progress_image="@drawable/ic_seekbar_yellow"
             app:ssb_is_show_text="true"
             app:ssb_text_show_type="down"
             app:ssb_thumb_image="@drawable/ic_thumb"
-            app:ssb_thumb_normal_radius="15dp"
+            app:ssb_thumb_normal_radius="10dp"
             app:ssb_thumb_select_radius="20dp" />
+
 
         <com.sheng.lib.EasySeekBar
             android:id="@+id/id_seekbar_3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            app:ssb_bar_color="#B39DDB"
+            android:layout_marginTop="60dp"
+            app:ssb_bar_color="#80DEEA"
             app:ssb_bar_height="10dp"
-            app:ssb_bar_progress_color="#FFD600"
-            app:ssb_bubble_color="#FFD600"
+            app:ssb_bar_progress_color="#00ACC1"
+            app:ssb_bubble_color="#00ACC1"
             app:ssb_bubble_radius="20dp"
-            app:ssb_is_bar_round="true"
-            app:ssb_is_can_touch="true"
+            app:ssb_bubble_text_color="#FFFFFF"
+            app:ssb_is_can_touch="false"
             app:ssb_is_show_bubble="true"
-            app:ssb_is_show_text="true"
-            app:ssb_text_color="#FFD600"
-            app:ssb_text_show_type="inner"
-            app:ssb_thumb_color="#FFFFFF"
+            app:ssb_thumb_color="#00ACC1"
             app:ssb_thumb_normal_radius="15dp"
             app:ssb_thumb_select_radius="15dp" />
 
@@ -62,19 +85,21 @@
             app:ssb_bar_color="#80DEEA"
             app:ssb_bar_height="10dp"
             app:ssb_bar_progress_color="#00ACC1"
-            app:ssb_bubble_color="#00ACC1"
-            app:ssb_bubble_radius="20dp"
-            app:ssb_bubble_type="roundRect"
-            app:ssb_is_bar_round="true"
-            app:ssb_is_can_touch="true"
-            app:ssb_is_show_bubble="true"
             app:ssb_is_thumb_progress_part="true"
-            app:ssb_text_color="#00ACC1"
             app:ssb_thumb_color="#00ACC1"
             app:ssb_thumb_height="30dp"
             app:ssb_thumb_normal_radius="15dp"
             app:ssb_thumb_select_radius="15dp"
             app:ssb_thumb_width="5dp" />
+
+        <TextView
+            android:id="@+id/id_tv_4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center">
+
+        </TextView>
 
         <com.sheng.lib.EasySeekBar
             android:id="@+id/id_seekbar_5"
@@ -84,7 +109,7 @@
             android:padding="10dp"
             app:ssb_bar_color="#80DEEA"
             app:ssb_bar_height="10dp"
-            app:ssb_bar_type="diy"
+            app:ssb_bar_type="seekbar"
             app:ssb_is_show_text="true"
             app:ssb_text_color="#80DEEA"
             app:ssb_text_select_color="#00ACC1"
@@ -139,8 +164,22 @@
             android:layout_marginTop="20dp"
             android:padding="10dp"
             app:ssb_bar_type="progress"
+            app:ssb_firework_color="#9C27B0"
             app:ssb_is_open_animator="true"
-            app:ssb_progress="50" />
+            app:ssb_progress="50"
+            app:ssb_progress_show_type="firework" />
+
+        <com.sheng.lib.EasySeekBar
+            android:id="@+id/id_seekbar_7_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:padding="10dp"
+            app:ssb_bar_type="progress"
+            app:ssb_firework_color="#9C27B0"
+            app:ssb_is_open_animator="true"
+            app:ssb_progress="50"
+            app:ssb_progress_show_type="nothing" />
 
         <TextView
             android:id="@+id/id_tv_7"
@@ -160,11 +199,13 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             app:ssb_bar_type="lowOrHeight"
-            app:ssb_low_max="30"
-            app:ssb_height_min="70"
             app:ssb_is_open_animator="true"
             app:ssb_is_show_text="true"
+            app:ssb_text_color_for_height="#000000"
+            app:ssb_text_color_for_low="#FFFFFF"
             app:ssb_text_show_type="inner"
+            app:ssb_thumb_height_color="#FFFFFF"
+            app:ssb_thumb_low_color="#000000"
             app:ssb_thumb_normal_radius="15dp"
             app:ssb_thumb_select_radius="15dp" />
 
@@ -191,10 +232,10 @@
             app:ssb_is_bar_round="false"
             app:ssb_is_show_text="true"
             app:ssb_is_thumb_inner_offset="true"
-            app:ssb_text_color="#FFFFFF"
+            app:ssb_text_color="#000000"
             app:ssb_text_show_type="up"
             app:ssb_text_size="12sp"
-            app:ssb_thumb_color="#FFFFFF"
+            app:ssb_thumb_color="#5F5858"
             app:ssb_thumb_height="10dp"
             app:ssb_thumb_normal_radius="15dp"
             app:ssb_thumb_select_radius="20dp"

@@ -66,6 +66,7 @@ public class EasySeekBar extends View {
     private static final boolean DEFAULT_IS_OPEN_ANIMATOR = true;
     private static final boolean DEFAULT_IS_THUMB_NO_OVER = true;
     private static final boolean DEFAULT_IS_THUMB_NO_OVER_THAN_MOVE = true;
+    private static final boolean DEFAULT_IS_THUMB_FIREWORK = false;
     // bar
     private static final int DEFAULT_BAR_HEIGHT = 10;
     private static final int DEFAULT_BAR_STROKE_WIDTH = 0;
@@ -73,6 +74,7 @@ public class EasySeekBar extends View {
     private static final int DEFAULT_BAR_STROKE_COLOR = Color.parseColor("#bbbfca");
     private static final int DEFAULT_BAR_SECOND_COLOR = Color.parseColor("#00ACC1");
     private static final int DEFAULT_SPACING = 3;
+    private static final int DEFAULT_FIREWORK_COLOR = Color.parseColor("#FFFF00");
     // text
     private static final int DEFAULT_TEXT_COLOR = Color.parseColor("#00ACC1");
     private static final int DEFAULT_TEXT_COLOR_LOW = Color.parseColor("#00ACC1");
@@ -117,6 +119,8 @@ public class EasySeekBar extends View {
     public static final int TEXT_SHOW_DOWN = 1;
     public static final int TEXT_SHOW_INNER = 2;
 
+    public static final int PROGRESS_NOTHING = 0;
+    public static final int PROGRESS_FIREWORK = 1;
 
     @IntDef({SEEKBAR_TYPE_DIY, SEEKBAR_TYPE_SEEKBAR, SEEKBAR_TYPE_PROGRESS, SEEKBAR_TYPE_LOW_HEIGHT_THUMB})
     @Retention(RetentionPolicy.SOURCE)
@@ -136,6 +140,11 @@ public class EasySeekBar extends View {
     @IntDef({TEXT_SHOW_UP, TEXT_SHOW_DOWN, TEXT_SHOW_INNER})
     @Retention(RetentionPolicy.SOURCE)
     public @interface TextShowType {
+    }
+
+    @IntDef({PROGRESS_NOTHING, PROGRESS_FIREWORK})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface ProgressShowType {
     }
 
     //region 监听器
@@ -192,6 +201,8 @@ public class EasySeekBar extends View {
     public int touchType = TOUCH_NULL_THUMB;
     @TextShowType
     public int textShowType = TEXT_SHOW_DOWN;
+    @ProgressShowType
+    public int progressShowType = PROGRESS_NOTHING;
 
     private boolean isShowText;
     private boolean isShowFloat;
@@ -211,6 +222,7 @@ public class EasySeekBar extends View {
     private int barStrokeColor;
     private Bitmap barBitmap;
     private Bitmap progressBitmap;
+    private int fireworkColor;
 
     // thumb
     private Thumb thumb = new Thumb();
@@ -242,6 +254,7 @@ public class EasySeekBar extends View {
 
     // view rect and paint
     private Paint textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private Paint progressShowPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Paint barXfermodePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Paint barStrokePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Paint thumbPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -273,6 +286,7 @@ public class EasySeekBar extends View {
     private boolean isUseThumbWAndH; // 是否使用自定义的Thumb宽高
     private boolean isThumbAndProgressPart; // thumb的滑动是否和进度分开
     private CalculateHelper calculateHelper = new CalculateHelper();
+    private List<Firework> fireworks = new ArrayList<>();
 
 
     //region 初始化
@@ -323,6 +337,7 @@ public class EasySeekBar extends View {
         seekType = a.getInt(R.styleable.EasySeekBar_ssb_bar_type, 0);
         bubbleType = a.getInt(R.styleable.EasySeekBar_ssb_bubble_type, 0);
         textShowType = a.getInt(R.styleable.EasySeekBar_ssb_text_show_type, 1);
+        progressShowType = a.getInt(R.styleable.EasySeekBar_ssb_progress_show_type, 1);
         // bar
         barHeight = a.getDimensionPixelOffset(R.styleable.EasySeekBar_ssb_bar_height, EasySeekBarUtil.dp2px(getContext(), DEFAULT_BAR_HEIGHT));
         int seekBarImgId = a.getResourceId(R.styleable.EasySeekBar_ssb_bar_image, -1);
@@ -402,6 +417,7 @@ public class EasySeekBar extends View {
         heightProgress = a.getInt(R.styleable.EasySeekBar_ssb_height_progress, (int) max);
         diySelectIndexByAutoFit = diySelectIndex = a.getInt(R.styleable.EasySeekBar_ssb_diy_select_index, DEFAULT_DIY_SELECT_INDEX);
         animatorDuration = a.getInt(R.styleable.EasySeekBar_ssb_animator_duration, DEFAULT_ANIMATOR_DURATION);
+        fireworkColor = a.getColor(R.styleable.EasySeekBar_ssb_firework_color, DEFAULT_FIREWORK_COLOR);
 
         isThumbInnerOffset = a.getBoolean(R.styleable.EasySeekBar_ssb_is_thumb_inner_offset, DEFAULT_IS_THUMB_INNER_OFFSET);
         isBarRound = a.getBoolean(R.styleable.EasySeekBar_ssb_is_bar_round, DEFAULT_IS_ROUND);
@@ -471,11 +487,11 @@ public class EasySeekBar extends View {
             heightProgress = heightMin;
         }
 
-        if(thumbProgress < min){
+        if (thumbProgress < min) {
             thumbProgress = min;
         }
 
-        if(thumbProgress > max){
+        if (thumbProgress > max) {
             thumbProgress = max;
         }
 
@@ -715,6 +731,27 @@ public class EasySeekBar extends View {
 
         // 2,绘制边框
         drawStroke(canvas);
+
+        // 3，绘制烟花
+        if (progressShowType == PROGRESS_FIREWORK) {
+            drawFirework(canvas);
+        }
+    }
+
+    private void drawFirework(Canvas canvas) {
+        progressShowPaint.setColor(fireworkColor);
+        fireworks.clear();
+        for (int i = 0; i < 60; i++) {
+            double angle = 2 * Math.PI / 60 * i;
+            int radius = (int) (Math.random() * thumb.thumbRadiusForNormal);
+            int x = (int) (Math.cos(angle) * radius + progressDstRectF.right);
+            int y = (int) (Math.sin(angle) * radius + thumb.thumbCenterY);
+            fireworks.add(new Firework(x, y, radius));
+        }
+        for (Firework firework : fireworks) {
+            canvas.drawCircle(firework.x, firework.y, 2, progressShowPaint);
+        }
+        invalidate();
     }
     //endregion
 
@@ -1017,16 +1054,29 @@ public class EasySeekBar extends View {
                 }
                 String text = "";
                 if (textShowHelper != null) {
-                    text = textShowHelper.getTextByProgress((int) progress);
+                    if (isThumbAndProgressPart) {
+                        text = textShowHelper.getTextByProgress((int) thumbProgress);
+                    } else {
+                        text = textShowHelper.getTextByProgress((int) progress);
+                    }
 
                     if (TextUtils.isEmpty(text)) {
                         text = "";
                     }
                 } else {
                     if (isShowFloat) {
-                        text = EasySeekBarUtil.formatFloat(progress);
+                        if (isThumbAndProgressPart) {
+                            text = EasySeekBarUtil.formatFloat(thumbProgress);
+                        } else {
+                            text = EasySeekBarUtil.formatFloat(progress);
+                        }
+
                     } else {
-                        text = EasySeekBarUtil.formatInt(progress);
+                        if (isThumbAndProgressPart) {
+                            text = EasySeekBarUtil.formatInt(thumbProgress);
+                        } else {
+                            text = EasySeekBarUtil.formatInt(progress);
+                        }
                     }
                 }
                 canvas.drawText(text, itemX, itemY, textPaint);
@@ -2270,6 +2320,18 @@ public class EasySeekBar extends View {
         float barRight; // Bar的有效右侧侧(剔除边框)
         float lowMaxRight; // 两个滑动块需要
         float heightMinLeft; // 两个滑动块需要
+    }
+
+    private class Firework {
+        float x;
+        float y;
+        float distance;
+
+        public Firework(float x, float y, float distance) {
+            this.x = x;
+            this.y = y;
+            this.distance = distance;
+        }
     }
     //endregion
 

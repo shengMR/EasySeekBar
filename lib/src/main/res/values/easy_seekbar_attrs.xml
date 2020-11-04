@@ -17,6 +17,11 @@
             <enum name="inner" value="2" />
         </attr>
 
+        <attr name="ssb_progress_show_type" format="enum">
+            <enum name="nothing" value="0" />
+            <enum name="firework" value="1" />
+        </attr>
+
         <attr name="ssb_bar_height" format="dimension|reference" />
         <attr name="ssb_bar_image" format="reference" />
         <attr name="ssb_bar_color" format="color|reference" />
@@ -56,6 +61,7 @@
         <attr name="ssb_height_progress" format="integer" />
         <attr name="ssb_diy_select_index" format="integer" />
         <attr name="ssb_animator_duration" format="integer" />
+        <attr name="ssb_firework_color" format="color|reference" />
 
         <attr name="ssb_is_thumb_inner_offset" format="boolean" />
         <attr name="ssb_is_bar_round" format="boolean" />
