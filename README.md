@@ -23,7 +23,7 @@
 
  ```groovy
  	dependencies {
-	        implementation 'com.github.shengMR:EasySeekBar:v1.0.10'
+	        implementation 'com.github.shengMR:EasySeekBar:v1.0.11'
 	}
  ```
 

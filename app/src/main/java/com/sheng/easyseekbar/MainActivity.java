@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         easySeekBar1 = findViewById(R.id.id_seekbar_1);
         easySeekBar1.setProgress(60);
 
-        final String str4 = "progress : %s, thumb : %s";
+        final String str4 = "%s progress : %s, thumb : %s";
         easySeekBar4 = findViewById(R.id.id_seekbar_4);
         textView4 = findViewById(R.id.id_tv_4);
         easySeekBar4.setSeekBarProgressListener(new EasySeekBar.OnSeekBarProgressChangeListener() {
@@ -55,12 +55,12 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onProgressChange(EasySeekBar easySeekBar, float progress) {
-                textView4.setText(String.format(str4, (int) progress, easySeekBar.getThumbProgress()));
+                textView4.setText(String.format(str4, "changeEvent", (int) progress, easySeekBar.getThumbProgress()));
             }
 
             @Override
             public void onProgressStop(EasySeekBar easySeekBar, float progress) {
-
+                textView4.setText(String.format(str4, "stopEvent", (int) progress, easySeekBar.getThumbProgress()));
             }
         });
 
