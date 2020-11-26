@@ -19,7 +19,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -2126,15 +2125,15 @@ public class EasySeekBar extends View {
         return this.diySelectIndex;
     }
 
-    public void setThumbProgress(final int progress) {
+    public void setThumbProgress(final int value) {
+        this.thumbProgress = value;
         autoInitWith(false);
         this.post(new Runnable() {
             @Override
             public void run() {
                 if (isThumbAndProgressPart) {
-                    thumbProgress = progress;
                     float delta = max - min;
-                    float result = (progress - min) * 1.0f / delta * barDstRectF.width() + barDstRectF.left;
+                    float result = (thumbProgress - min) * 1.0f / delta * barDstRectF.width() + barDstRectF.left;
                     if (isOpenAnimator) {
                         if (valueAnimatorForThumb != null) {
                             valueAnimatorForThumb.cancel();
@@ -2164,15 +2163,14 @@ public class EasySeekBar extends View {
         return (int) this.thumbProgress;
     }
 
-    public void setProgress(final int progress) {
-        this.progress = progress;
+    public void setProgress(final int value) {
+        this.progress = value;
         autoInitWith(false);
         this.post(new Runnable() {
             @Override
             public void run() {
                 float delta = max - min;
                 if (isThumbAndProgressPart) {
-                    Log.d(TAG, "ssssss = 开始rogressDstRectF.right : " + progressDstRectF.right);
                     float result = (progress - min) * 1.0f / delta * barDstRectF.width() + barDstRectF.left;
                     if (isOpenAnimator) {
                         if (valueAnimatorForProgress != null) {
@@ -2186,7 +2184,6 @@ public class EasySeekBar extends View {
                             public void onAnimationUpdate(ValueAnimator animation) {
                                 float value = (float) animation.getAnimatedValue();
                                 progressDstRectF.right = value;
-                                Log.d(TAG, "ssssss = rogressDstRectF.right : " + progressDstRectF.right);
                                 invalidate();
                             }
                         });
@@ -2231,8 +2228,8 @@ public class EasySeekBar extends View {
         return (int) this.progress;
     }
 
-    public void setLowProgress(int lowProgress) {
-        this.lowProgress = lowProgress;
+    public void setLowProgress(int value) {
+        this.lowProgress = value;
         autoInit();
         postInvalidate();
     }
@@ -2241,8 +2238,8 @@ public class EasySeekBar extends View {
         return (int) this.lowProgress;
     }
 
-    public void setHeightProgress(int heightProgress) {
-        this.heightProgress = heightProgress;
+    public void setHeightProgress(int value) {
+        this.heightProgress = value;
         autoInit();
         postInvalidate();
     }
@@ -2251,8 +2248,8 @@ public class EasySeekBar extends View {
         return (int) this.heightProgress;
     }
 
-    public void setMax(int max) {
-        this.max = max;
+    public void setMax(int value) {
+        this.max = value;
         autoInit();
         postInvalidate();
     }
@@ -2261,8 +2258,8 @@ public class EasySeekBar extends View {
         return (int) max;
     }
 
-    public void setMin(int min) {
-        this.min = min;
+    public void setMin(int value) {
+        this.min = value;
         autoInit();
         postInvalidate();
     }
